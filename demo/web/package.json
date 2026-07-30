@@ -1,7 +1,10 @@
 {
-  "name": "web",
+  "name": "realtime-demo-web",
   "version": "0.1.0",
   "private": true,
+  "description": "Next.js frontend for the Polling vs Long Polling vs SSE vs WebSocket demo",
+  "author": "Miguel Pachiega Guerreiro",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
