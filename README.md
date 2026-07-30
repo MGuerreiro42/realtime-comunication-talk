@@ -2,7 +2,7 @@
 
 Presentation material and interactive demo comparing the four main approaches to real-time communication on the web: Polling, Long Polling, Server-Sent Events, and WebSocket.
 
-> The slide deck in [`docs/`](docs/) is in Portuguese — it documents a TechTalk actually delivered in that language. This README and the demo below are in English.
+> The slide deck exists in both languages: [`docs/en/`](docs/en/) and the original [`docs/pt-BR/`](docs/pt-BR/), which documents a TechTalk actually delivered in Portuguese. The interactive demo UI itself (below) is still Portuguese-only.
 
 ---
 
@@ -10,19 +10,31 @@ Presentation material and interactive demo comparing the four main approaches to
 
 ```
 /
-├── docs/                  # Presentation material (Markdown / Obsidian), in Portuguese
-│   ├── 00-indice.md
-│   ├── 01-o-problema.md
-│   ├── 02-http-classico.md
-│   ├── 03-polling-long-polling.md
-│   ├── 04a-http-1-e-2.md
-│   ├── 04b-http3-quic.md
-│   ├── 05-sse.md
-│   ├── 06-websocket.md
-│   ├── 07-alem-do-basico.md
-│   ├── 08-como-escolher.md
-│   ├── 09-demo.md
-│   └── 10-seguranca.md
+├── docs/
+│   ├── en/                    # Slide deck, English translation
+│   │   ├── 00-index.md
+│   │   ├── 01-the-problem.md
+│   │   ├── 02-classic-http.md
+│   │   ├── 03-polling-long-polling.md
+│   │   ├── 04a-http-1-and-2.md
+│   │   ├── 04b-http3-quic.md
+│   │   ├── 05-sse.md
+│   │   ├── 06-websocket.md
+│   │   ├── 07-beyond-the-basics.md
+│   │   ├── 08-how-to-choose.md
+│   │   └── 09-security.md
+│   └── pt-BR/                 # Slide deck, original Portuguese (Markdown / Obsidian)
+│       ├── 00-indice.md
+│       ├── 01-o-problema.md
+│       ├── 02-http-classico.md
+│       ├── 03-polling-long-polling.md
+│       ├── 04a-http-1-e-2.md
+│       ├── 04b-http3-quic.md
+│       ├── 05-sse.md
+│       ├── 06-websocket.md
+│       ├── 07-alem-do-basico.md
+│       ├── 08-como-escolher.md
+│       └── 09-seguranca.md
 └── demo/
     ├── server.js
     └── public/
@@ -68,13 +80,11 @@ Open `http://localhost:3000` and start whichever panels you want to compare. Kee
 
 ---
 
-## Material (in Portuguese)
+## Material
 
-The files in `docs/` form a linear narrative from the problem to next-generation technologies, aimed at engineers already familiar with web development.
+The files form a linear narrative from the problem to next-generation technologies, aimed at engineers already familiar with web development. Read [`docs/en/00-index.md`](docs/en/00-index.md) or [`docs/pt-BR/00-indice.md`](docs/pt-BR/00-indice.md) for the suggested reading order. Both folders are Obsidian-compatible — `[[]]` links work if you open either one as a vault.
 
-The suggested reading order is in [`docs/00-indice.md`](docs/00-indice.md). The files are Obsidian-compatible — `[[]]` links work if you open the `docs/` folder as a vault.
-
-The [`05-sse.md`](docs/05-sse.md) module includes a React hook implementation (`useSSE`) with exponential backoff, jitter to avoid thundering herd, stable callbacks via `useLatestRef`, and memory-leak cleanup — plus the reasoning behind each of those safeguards.
+The `05-sse.md` module ([en](docs/en/05-sse.md) / [pt-BR](docs/pt-BR/05-sse.md)) includes a React hook implementation (`useSSE`) with exponential backoff, jitter to avoid thundering herd, stable callbacks via `useLatestRef`, and memory-leak cleanup — plus the reasoning behind each of those safeguards.
 
 ---
 
