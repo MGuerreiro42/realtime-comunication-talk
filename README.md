@@ -1,8 +1,16 @@
 # Real-Time Communication on the Web
 
+[![CI](https://github.com/MGuerreiro42/realtime-comunication-talk/actions/workflows/ci.yml/badge.svg)](https://github.com/MGuerreiro42/realtime-comunication-talk/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js&style=flat-square)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&style=flat-square)
+![Tailwind](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white&style=flat-square)
+
 Presentation material and interactive demo comparing the four main approaches to real-time communication on the web: Polling, Long Polling, Server-Sent Events, and WebSocket.
 
 > The slide deck exists in both languages: [`docs/en/`](docs/en/) and the original [`docs/pt-BR/`](docs/pt-BR/), which documents a TechTalk actually delivered in Portuguese.
+
+![All four techniques running side by side in the demo, each streaming live crypto price events at its own pace](docs/assets/demo-screenshot.png)
 
 ---
 
@@ -35,12 +43,15 @@ Presentation material and interactive demo comparing the four main approaches to
 │       ├── 07-alem-do-basico.md
 │       ├── 08-como-escolher.md
 │       └── 09-seguranca.md
-└── demo/
-    ├── api/                    # Express + ws backend — the four endpoints below
-    │   └── server.js
-    └── web/                    # Next.js frontend for the interactive demo
-        ├── app/
-        └── components/
+├── demo/
+│   ├── api/                    # Express + ws backend — the four endpoints below
+│   │   └── server.js
+│   └── web/                    # Next.js frontend for the interactive demo
+│       ├── app/
+│       ├── components/
+│       ├── hooks/               # one hook per technique's connection logic
+│       └── lib/constants.ts     # per-technique copy, colors, and static config
+└── .github/workflows/ci.yml    # typecheck + lint + build (web), install + smoke test (api)
 ```
 
 ---
@@ -60,6 +71,8 @@ The server simulates a crypto price feed — a new event every 1.5 seconds — a
 **SSE** — a single persistent HTTP connection. The server pushes events as they happen. The request counter stays at 1 forever — that's the point of the slide.
 
 **WebSocket** — full-duplex connection. Besides receiving events from the server, you can send messages and see the server's timestamped echo, illustrating the bidirectionality that SSE doesn't have.
+
+Below the `md` breakpoint, the four panels become full-screen, scroll-snapped slides — swipe horizontally to move between techniques, one at a time, instead of scanning a cramped four-column grid.
 
 ### How to run it
 
@@ -101,4 +114,10 @@ The `05-sse.md` module ([en](docs/en/05-sse.md) / [pt-BR](docs/pt-BR/05-sse.md))
 ## Tech
 
 - **API** (`demo/api`): Node.js with `express` and `ws`
-- **Frontend** (`demo/web`): Next.js (App Router, TypeScript)
+- **Frontend** (`demo/web`): Next.js (App Router, TypeScript, Tailwind CSS v4)
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).

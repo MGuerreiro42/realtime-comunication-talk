@@ -1,8 +1,10 @@
 {
-  "name": "realtime-demo",
+  "name": "realtime-demo-api",
   "version": "1.0.0",
-  "description": "Demo: Polling vs Long Polling vs SSE vs WebSocket",
+  "description": "Backend for the Polling vs Long Polling vs SSE vs WebSocket demo — four endpoints, one shared event feed",
   "main": "server.js",
+  "author": "Miguel Pachiega Guerreiro",
+  "license": "MIT",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"
