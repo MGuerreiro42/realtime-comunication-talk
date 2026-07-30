@@ -1,13 +1,18 @@
 const express = require('express');
 const http = require('http');
 const { WebSocketServer } = require('ws');
-const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server, path: '/ws' });
 
 const PORT = 3000;
+
+// The frontend (demo/web) runs on a different port, so every endpoint needs CORS.
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 // --- Shared state: simulated "server events" ---
 // Every 1s the server generates a new event (like a stock price or sensor reading)
@@ -94,7 +99,6 @@ app.get('/api/sse', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
-  res.setHeader('Access-Control-Allow-Origin', '*');
 
   // Send a connected confirmation immediately
   res.write(`data: ${JSON.stringify({ type: 'connected', message: 'SSE stream connected', timestamp: new Date().toISOString() })}\n\n`);
@@ -142,9 +146,6 @@ wss.on('connection', (ws, req) => {
     }));
   });
 });
-
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 server.listen(PORT, () => {
   console.log(`\nDemo server running at http://localhost:${PORT}\n`);

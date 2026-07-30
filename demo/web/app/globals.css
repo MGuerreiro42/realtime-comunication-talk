@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f1117;
+  --foreground: #e2e8f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-mono: var(--font-geist-mono);
+  --animate-pulse-dot: pulse-dot 1.2s ease-in-out infinite;
+  --animate-slide-in: slide-in 0.2s ease;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .3; }
+}
+
+@keyframes slide-in {
+  from { transform: translateY(-4px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
