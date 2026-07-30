@@ -1,35 +1,41 @@
-export interface ConnectionCounts {
-  polling: number;
-  longPoll: number;
-  sse: number;
-  ws: number;
+import { TECHNIQUE_STYLES, type Technique } from "@/lib/techniqueStyles";
+
+export type ConnectionCounts = Record<Technique, number>;
+
+interface BarConfig {
+  technique: Technique;
+  label: string;
+  unit: "requests" | "connection";
 }
+
+const BARS: BarConfig[] = [
+  { technique: "polling", label: "Polling", unit: "requests" },
+  { technique: "longpoll", label: "Long Polling", unit: "requests" },
+  { technique: "sse", label: "SSE (1 connection)", unit: "connection" },
+  { technique: "websocket", label: "WebSocket (1 connection)", unit: "connection" },
+];
 
 function pct(n: number): string {
   return `${Math.min((n / 60) * 100, 100)}%`;
 }
 
-function RequestBar({
-  label,
-  count,
-  colorClassName,
-  countLabel,
-}: {
-  label: string;
-  count: number;
-  colorClassName: string;
-  countLabel: string;
-}) {
+function countLabel(unit: BarConfig["unit"], count: number): string {
+  if (unit === "requests") return `${count} requests`;
+  return count > 0 ? "1 connection open" : "0 connections open";
+}
+
+function RequestBar({ config, count }: { config: BarConfig; count: number }) {
+  const barFill = TECHNIQUE_STYLES[config.technique].barFill;
   return (
     <div className="bg-[#161b27] border border-[#1e2535] rounded-lg px-4 py-3">
-      <label className="text-[0.75rem] text-[#64748b] block mb-1.5">{label}</label>
+      <label className="text-[0.75rem] text-[#64748b] block mb-1.5">{config.label}</label>
       <div className="bg-[#1e2535] rounded h-2 overflow-hidden">
         <div
-          className={`h-full rounded transition-[width] duration-[400ms] ease-in-out ${colorClassName}`}
+          className={`h-full rounded transition-[width] duration-[400ms] ease-in-out ${barFill}`}
           style={{ width: pct(count) }}
         />
       </div>
-      <div className="text-[0.75rem] text-[#475569] mt-1">{countLabel}</div>
+      <div className="text-[0.75rem] text-[#475569] mt-1">{countLabel(config.unit, count)}</div>
     </div>
   );
 }
@@ -41,30 +47,9 @@ export function NetworkBars({ counts }: { counts: ConnectionCounts }) {
         Accumulated HTTP requests (only Polling and Long Polling create a new request per event)
       </h2>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-3">
-        <RequestBar
-          label="Polling"
-          count={counts.polling}
-          colorClassName="bg-[#3b82f6]"
-          countLabel={`${counts.polling} requests`}
-        />
-        <RequestBar
-          label="Long Polling"
-          count={counts.longPoll}
-          colorClassName="bg-[#a855f7]"
-          countLabel={`${counts.longPoll} requests`}
-        />
-        <RequestBar
-          label="SSE (1 connection)"
-          count={counts.sse}
-          colorClassName="bg-[#22c55e]"
-          countLabel={counts.sse > 0 ? "1 connection open" : "0 connections open"}
-        />
-        <RequestBar
-          label="WebSocket (1 connection)"
-          count={counts.ws}
-          colorClassName="bg-[#f59e0b]"
-          countLabel={counts.ws > 0 ? "1 connection open" : "0 connections open"}
-        />
+        {BARS.map((config) => (
+          <RequestBar key={config.technique} config={config} count={counts[config.technique]} />
+        ))}
       </div>
     </div>
   );

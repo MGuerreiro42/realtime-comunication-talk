@@ -1,19 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import { PollingPanel } from "@/components/PollingPanel";
 import { LongPollingPanel } from "@/components/LongPollingPanel";
 import { SsePanel } from "@/components/SsePanel";
 import { WebSocketPanel } from "@/components/WebSocketPanel";
 import { NetworkBars, type ConnectionCounts } from "@/components/NetworkBars";
 import { ExplainerCards } from "@/components/ExplainerCards";
+import type { Technique } from "@/lib/techniqueStyles";
+
+interface PanelDef {
+  technique: Technique;
+  Component: ComponentType<{ onCountChange: (count: number) => void }>;
+}
+
+const PANELS: PanelDef[] = [
+  { technique: "polling", Component: PollingPanel },
+  { technique: "longpoll", Component: LongPollingPanel },
+  { technique: "sse", Component: SsePanel },
+  { technique: "websocket", Component: WebSocketPanel },
+];
 
 export default function Home() {
   const [counts, setCounts] = useState<ConnectionCounts>({
     polling: 0,
-    longPoll: 0,
+    longpoll: 0,
     sse: 0,
-    ws: 0,
+    websocket: 0,
   });
 
   return (
@@ -26,10 +39,12 @@ export default function Home() {
       </header>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5 p-6 max-w-[1400px] mx-auto">
-        <PollingPanel onCountChange={(polling) => setCounts((c) => ({ ...c, polling }))} />
-        <LongPollingPanel onCountChange={(longPoll) => setCounts((c) => ({ ...c, longPoll }))} />
-        <SsePanel onCountChange={(sse) => setCounts((c) => ({ ...c, sse }))} />
-        <WebSocketPanel onCountChange={(ws) => setCounts((c) => ({ ...c, ws }))} />
+        {PANELS.map(({ technique, Component }) => (
+          <Component
+            key={technique}
+            onCountChange={(count) => setCounts((c) => ({ ...c, [technique]: count }))}
+          />
+        ))}
       </div>
 
       <NetworkBars counts={counts} />
