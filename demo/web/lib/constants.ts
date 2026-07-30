@@ -134,15 +134,16 @@ export const EXPLAINER_CARDS: ExplainerCardData[] = [
   },
 ];
 
-export interface BarConfig {
-  technique: Technique;
+export interface BarInfo {
   label: string;
   unit: "requests" | "connection";
 }
 
-export const NETWORK_BARS: BarConfig[] = [
-  { technique: "polling", label: "Polling", unit: "requests" },
-  { technique: "longpoll", label: "Long Polling", unit: "requests" },
-  { technique: "sse", label: "SSE (1 connection)", unit: "connection" },
-  { technique: "websocket", label: "WebSocket (1 connection)", unit: "connection" },
-];
+export const NETWORK_BARS: Record<Technique, BarInfo> = {
+  polling: { label: "Polling", unit: "requests" },
+  longpoll: { label: "Long Polling", unit: "requests" },
+  sse: { label: "SSE (1 connection)", unit: "connection" },
+  websocket: { label: "WebSocket (1 connection)", unit: "connection" },
+};
+
+export type ConnectionCounts = Record<Technique, number>;
