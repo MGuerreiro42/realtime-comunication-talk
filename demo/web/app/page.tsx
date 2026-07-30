@@ -18,12 +18,14 @@ export default function Home() {
 
   return (
     <>
-      <header>
-        <h1>Real-Time Communication</h1>
-        <p>Visual comparison: Polling · Long Polling · SSE · WebSocket</p>
+      <header className="text-center pt-8 px-4 pb-6 border-b border-[#1e2535]">
+        <h1 className="text-[1.8rem] font-bold text-[#f8fafc]">Real-Time Communication</h1>
+        <p className="text-[#94a3b8] mt-1.5 text-[0.95rem]">
+          Visual comparison: Polling · Long Polling · SSE · WebSocket
+        </p>
       </header>
 
-      <div className="grid">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5 p-6 max-w-[1400px] mx-auto">
         <PollingPanel onCountChange={(polling) => setCounts((c) => ({ ...c, polling }))} />
         <LongPollingPanel onCountChange={(longPoll) => setCounts((c) => ({ ...c, longPoll }))} />
         <SsePanel onCountChange={(sse) => setCounts((c) => ({ ...c, sse }))} />

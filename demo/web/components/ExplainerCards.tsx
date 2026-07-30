@@ -1,86 +1,78 @@
+interface ExplainerItem {
+  label: string;
+  text: string;
+}
+
+function ExplainerCard({
+  title,
+  titleClassName,
+  items,
+}: {
+  title: string;
+  titleClassName: string;
+  items: ExplainerItem[];
+}) {
+  return (
+    <div className="bg-[#161b27] border border-[#1e2535] rounded-[10px] px-5 py-4">
+      <h3 className={`text-[0.88rem] font-bold mb-2 ${titleClassName}`}>{title}</h3>
+      <ul className="pl-[1.1rem] list-disc text-[0.78rem] text-[#94a3b8] leading-[1.7]">
+        {items.map((item) => (
+          <li key={item.label}>
+            <strong className="text-[#cbd5e1]">{item.label}:</strong> {item.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function ExplainerCards() {
   return (
-    <div className="explainer">
-      <div className="exp-card polling-c">
-        <h3>Polling</h3>
-        <ul>
-          <li>
-            <strong>How it works:</strong> client calls GET every N seconds
-          </li>
-          <li>
-            <strong>Connections:</strong> 1 new per tick
-          </li>
-          <li>
-            <strong>Latency:</strong> up to N seconds
-          </li>
-          <li>
-            <strong>Overhead:</strong> high — requests even without new data
-          </li>
-          <li>
-            <strong>Use case:</strong> simple dashboards, maximum compatibility
-          </li>
-        </ul>
-      </div>
-      <div className="exp-card longpoll-c">
-        <h3>Long Polling</h3>
-        <ul>
-          <li>
-            <strong>How it works:</strong> client opens a request, server holds it until there&apos;s data
-          </li>
-          <li>
-            <strong>Connections:</strong> 1 per event (reconnects automatically)
-          </li>
-          <li>
-            <strong>Latency:</strong> near zero — responds as soon as there&apos;s data
-          </li>
-          <li>
-            <strong>Overhead:</strong> medium — reconnects on every event
-          </li>
-          <li>
-            <strong>Use case:</strong> chat, notifications (pre-SSE/WS)
-          </li>
-        </ul>
-      </div>
-      <div className="exp-card sse-c">
-        <h3>Server-Sent Events</h3>
-        <ul>
-          <li>
-            <strong>How it works:</strong> persistent HTTP stream, server → client
-          </li>
-          <li>
-            <strong>Connections:</strong> a single one (browser auto-reconnects)
-          </li>
-          <li>
-            <strong>Latency:</strong> near zero
-          </li>
-          <li>
-            <strong>Overhead:</strong> low — HTTP headers only once
-          </li>
-          <li>
-            <strong>Use case:</strong> live feeds, logs, push notifications
-          </li>
-        </ul>
-      </div>
-      <div className="exp-card ws-c">
-        <h3>WebSocket</h3>
-        <ul>
-          <li>
-            <strong>How it works:</strong> full-duplex TCP upgrade (ws://)
-          </li>
-          <li>
-            <strong>Connections:</strong> a single persistent one
-          </li>
-          <li>
-            <strong>Latency:</strong> minimal — binary frames
-          </li>
-          <li>
-            <strong>Overhead:</strong> very low after handshake
-          </li>
-          <li>
-            <strong>Use case:</strong> games, live collaboration, trading, chat
-          </li>
-        </ul>
-      </div>
+    <div className="max-w-[1400px] mx-auto mb-8 px-6 grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
+      <ExplainerCard
+        title="Polling"
+        titleClassName="text-[#60a5fa]"
+        items={[
+          { label: "How it works", text: "client calls GET every N seconds" },
+          { label: "Connections", text: "1 new per tick" },
+          { label: "Latency", text: "up to N seconds" },
+          { label: "Overhead", text: "high — requests even without new data" },
+          { label: "Use case", text: "simple dashboards, maximum compatibility" },
+        ]}
+      />
+      <ExplainerCard
+        title="Long Polling"
+        titleClassName="text-[#c084fc]"
+        items={[
+          { label: "How it works", text: "client opens a request, server holds it until there's data" },
+          { label: "Connections", text: "1 per event (reconnects automatically)" },
+          { label: "Latency", text: "near zero — responds as soon as there's data" },
+          { label: "Overhead", text: "medium — reconnects on every event" },
+          { label: "Use case", text: "chat, notifications (pre-SSE/WS)" },
+        ]}
+      />
+      <ExplainerCard
+        title="Server-Sent Events"
+        titleClassName="text-[#4ade80]"
+        items={[
+          { label: "How it works", text: "persistent HTTP stream, server → client" },
+          { label: "Connections", text: "a single one (browser auto-reconnects)" },
+          { label: "Latency", text: "near zero" },
+          { label: "Overhead", text: "low — HTTP headers only once" },
+          { label: "Use case", text: "live feeds, logs, push notifications" },
+        ]}
+      />
+      <ExplainerCard
+        title="WebSocket"
+        titleClassName="text-[#fbbf24]"
+        items={[
+          { label: "How it works", text: "full-duplex TCP upgrade (ws://)" },
+          { label: "Connections", text: "a single persistent one" },
+          { label: "Latency", text: "minimal — binary frames" },
+          { label: "Overhead", text: "very low after handshake" },
+          { label: "Use case", text: "games, live collaboration, trading, chat" },
+        ]}
+      />
     </div>
   );
 }
