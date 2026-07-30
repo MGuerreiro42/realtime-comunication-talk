@@ -1,14 +1,16 @@
-# Comunicação em Tempo Real na Web
+# Real-Time Communication on the Web
 
-Material de apresentação e demo interativa comparando as quatro principais abordagens de comunicação em tempo real na web: Polling, Long Polling, Server-Sent Events e WebSocket.
+Presentation material and interactive demo comparing the four main approaches to real-time communication on the web: Polling, Long Polling, Server-Sent Events, and WebSocket.
+
+> The slide deck in [`docs/`](docs/) is in Portuguese — it documents a TechTalk actually delivered in that language. This README and the demo below are in English.
 
 ---
 
-## Conteúdo do repositório
+## Repository contents
 
 ```
 /
-├── docs/                  # Material da apresentação (Markdown / Obsidian)
+├── docs/                  # Presentation material (Markdown / Obsidian), in Portuguese
 │   ├── 00-indice.md
 │   ├── 01-o-problema.md
 │   ├── 02-http-classico.md
@@ -31,21 +33,21 @@ Material de apresentação e demo interativa comparando as quatro principais abo
 
 ## Demo
 
-Servidor Node.js com quatro endpoints rodando em paralelo, e um frontend que conecta em todos simultaneamente e mostra o comportamento de cada um em tempo real.
+A Node.js server with four endpoints running in parallel, and a frontend that connects to all of them simultaneously and shows the behavior of each in real time.
 
-O servidor simula um feed de preços de criptomoedas — um novo evento a cada 1,5 segundo — e o cliente exibe como cada tecnologia recebe esses eventos, com contadores de requisições, latência medida e um visualizador de conexões acumuladas que torna visível o custo de cada abordagem.
+The server simulates a crypto price feed — a new event every 1.5 seconds — and the client displays how each technology receives those events, with request counters, measured latency, and a cumulative-connections visualizer that makes the cost of each approach visible.
 
-### O que cada painel mostra
+### What each panel shows
 
-**Polling** — o cliente faz um GET a cada 2 segundos independente de ter dado novo. O contador de requisições sobe continuamente, mesmo em silêncio. É o custo do modelo pull na sua forma mais crua.
+**Polling** — the client makes a GET every 2 seconds regardless of whether there's new data. The request counter keeps climbing even in silence. This is the cost of the pull model in its rawest form.
 
-**Long Polling** — o cliente abre uma requisição e o servidor segura até ter um evento. O request fica "aguardando" no Network tab do DevTools. Quando o dado chega, o cliente reconecta imediatamente. Latência próxima de zero, mas uma nova requisição HTTP por evento.
+**Long Polling** — the client opens a request and the server holds it until there's an event. The request sits "pending" in the DevTools Network tab. Once data arrives, the client reconnects immediately. Near-zero latency, but one new HTTP request per event.
 
-**SSE** — uma única conexão HTTP persistente. O servidor envia eventos conforme surgem. O contador de requisições fica em 1 para sempre — é o ponto do slide.
+**SSE** — a single persistent HTTP connection. The server pushes events as they happen. The request counter stays at 1 forever — that's the point of the slide.
 
-**WebSocket** — conexão full-duplex. Além de receber os eventos do servidor, você pode enviar mensagens e ver o echo com timestamp do servidor, ilustrando a bidirecionalidade que SSE não tem.
+**WebSocket** — full-duplex connection. Besides receiving events from the server, you can send messages and see the server's timestamped echo, illustrating the bidirectionality that SSE doesn't have.
 
-### Como rodar
+### How to run it
 
 ```bash
 cd demo
@@ -53,30 +55,30 @@ npm install
 node server.js
 ```
 
-Abra `http://localhost:3000` e inicie os painéis que quiser comparar. Deixar o Network tab do DevTools aberto junto é recomendado — a diferença entre "uma requisição que nunca fecha" (SSE) e "uma requisição por evento" (Long Polling) fica imediatamente visível.
+Open `http://localhost:3000` and start whichever panels you want to compare. Keeping the DevTools Network tab open alongside it is recommended — the difference between "one request that never closes" (SSE) and "one request per event" (Long Polling) becomes immediately visible.
 
 ### Endpoints
 
-| Método | Path | Descrição |
+| Method | Path | Description |
 |---|---|---|
-| GET | `/api/polling` | Retorna estado atual imediatamente |
-| GET | `/api/long-polling` | Segura até o próximo evento |
-| GET | `/api/sse` | Stream `text/event-stream` persistente |
-| WS | `/ws` | Conexão WebSocket full-duplex |
+| GET | `/api/polling` | Returns current state immediately |
+| GET | `/api/long-polling` | Holds until the next event |
+| GET | `/api/sse` | Persistent `text/event-stream` stream |
+| WS | `/ws` | Full-duplex WebSocket connection |
 
 ---
 
-## Material
+## Material (in Portuguese)
 
-Os arquivos em `docs/` formam uma narrativa linear do problema até as tecnologias de próxima geração, pensada para engenheiros com familiaridade em desenvolvimento web.
+The files in `docs/` form a linear narrative from the problem to next-generation technologies, aimed at engineers already familiar with web development.
 
-A ordem de leitura sugerida está em [`docs/00-indice.md`](docs/00-indice.md). Os arquivos são compatíveis com Obsidian — os links `[[]]` funcionam se você abrir a pasta `docs/` como vault.
+The suggested reading order is in [`docs/00-indice.md`](docs/00-indice.md). The files are Obsidian-compatible — `[[]]` links work if you open the `docs/` folder as a vault.
 
-O módulo [`05-sse.md`](docs/05-sse.md) inclui uma implementação de hook React (`useSSE`) com exponential backoff, jitter para evitar thundering herd, callbacks estáveis via `useLatestRef` e cleanup de memory leaks — além da explicação de por que cada uma dessas salvaguardas existe.
+The [`05-sse.md`](docs/05-sse.md) module includes a React hook implementation (`useSSE`) with exponential backoff, jitter to avoid thundering herd, stable callbacks via `useLatestRef`, and memory-leak cleanup — plus the reasoning behind each of those safeguards.
 
 ---
 
-## Tecnologias
+## Tech
 
-- Node.js com `express` e `ws`
-- Frontend sem framework ou build step — HTML, CSS e JS puro
+- Node.js with `express` and `ws`
+- Framework-free, build-step-free frontend — plain HTML, CSS, and JS
