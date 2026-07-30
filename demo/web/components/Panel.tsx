@@ -9,7 +9,7 @@ export interface PanelStat {
   label: string;
 }
 
-export function PanelView({
+export function Panel({
   technique,
   badgeLabel,
   title,
