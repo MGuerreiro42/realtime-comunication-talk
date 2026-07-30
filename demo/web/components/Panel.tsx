@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { StatusRow, type DotState } from "./StatusDot";
 import { Stat } from "./Stat";
 import { MessageFeed, type FeedEntry } from "./MessageFeed";
-import { TECHNIQUE_STYLES, type Technique } from "@/lib/techniqueStyles";
+import { TECHNIQUE_STYLES, type Technique } from "@/lib/constants";
 
 export interface PanelStat {
   value: string | number;

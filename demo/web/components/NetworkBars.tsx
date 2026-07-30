@@ -1,19 +1,6 @@
-import { TECHNIQUE_STYLES, type Technique } from "@/lib/techniqueStyles";
+import { NETWORK_BARS, TECHNIQUE_STYLES, type BarConfig, type Technique } from "@/lib/constants";
 
 export type ConnectionCounts = Record<Technique, number>;
-
-interface BarConfig {
-  technique: Technique;
-  label: string;
-  unit: "requests" | "connection";
-}
-
-const BARS: BarConfig[] = [
-  { technique: "polling", label: "Polling", unit: "requests" },
-  { technique: "longpoll", label: "Long Polling", unit: "requests" },
-  { technique: "sse", label: "SSE (1 connection)", unit: "connection" },
-  { technique: "websocket", label: "WebSocket (1 connection)", unit: "connection" },
-];
 
 function pct(n: number): string {
   return `${Math.min((n / 60) * 100, 100)}%`;
@@ -47,7 +34,7 @@ export function NetworkBars({ counts }: { counts: ConnectionCounts }) {
         Accumulated HTTP requests (only Polling and Long Polling create a new request per event)
       </h2>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-3">
-        {BARS.map((config) => (
+        {NETWORK_BARS.map((config) => (
           <RequestBar key={config.technique} config={config} count={counts[config.technique]} />
         ))}
       </div>

@@ -9,7 +9,7 @@ import { Button } from "@/components/Button";
 import { Panel, type PanelStat } from "@/components/Panel";
 import { NetworkBars, type ConnectionCounts } from "@/components/NetworkBars";
 import { ExplainerCards } from "@/components/ExplainerCards";
-import type { Technique } from "@/lib/techniqueStyles";
+import { PANEL_INFO, type Technique } from "@/lib/constants";
 
 function StandardControls({
   start,
@@ -77,13 +77,14 @@ export default function Home() {
   }[] = [
     {
       technique: "polling",
-      badgeLabel: "HTTP",
-      title: "Polling",
-      description:
-        "The client makes periodic requests to the server. Simple, but inefficient — generates traffic even without new data.",
+      ...PANEL_INFO.polling,
       dotState: polling.dotState,
       status: polling.status,
-      statusExtra: <span className="text-[0.75rem] text-[#475569] ml-auto">every 2s</span>,
+      statusExtra: PANEL_INFO.polling.intervalLabel && (
+        <span className="text-[0.75rem] text-[#475569] ml-auto">
+          {PANEL_INFO.polling.intervalLabel}
+        </span>
+      ),
       stats: [
         { value: polling.reqCount, label: "Requests" },
         { value: polling.msgCount, label: "Messages" },
@@ -101,10 +102,7 @@ export default function Home() {
     },
     {
       technique: "longpoll",
-      badgeLabel: "HTTP",
-      title: "Long Polling",
-      description:
-        "The client opens a request and the server only responds once there's new data. Then the client immediately repeats.",
+      ...PANEL_INFO.longpoll,
       dotState: longPolling.dotState,
       status: longPolling.status,
       stats: [
@@ -124,10 +122,7 @@ export default function Home() {
     },
     {
       technique: "sse",
-      badgeLabel: "SSE",
-      title: "Server-Sent Events",
-      description:
-        "A single persistent HTTP connection. The server sends events whenever it wants. Unidirectional (server → client).",
+      ...PANEL_INFO.sse,
       dotState: sse.dotState,
       status: sse.status,
       stats: [
@@ -142,9 +137,7 @@ export default function Home() {
     },
     {
       technique: "websocket",
-      badgeLabel: "WS",
-      title: "WebSocket",
-      description: "Persistent full-duplex connection. Server and client can send messages at any time.",
+      ...PANEL_INFO.websocket,
       dotState: ws.dotState,
       status: ws.status,
       stats: [
