@@ -2,7 +2,7 @@
 
 Presentation material and interactive demo comparing the four main approaches to real-time communication on the web: Polling, Long Polling, Server-Sent Events, and WebSocket.
 
-> The slide deck exists in both languages: [`docs/en/`](docs/en/) and the original [`docs/pt-BR/`](docs/pt-BR/), which documents a TechTalk actually delivered in Portuguese. The interactive demo UI itself (below) is still Portuguese-only.
+> The slide deck exists in both languages: [`docs/en/`](docs/en/) and the original [`docs/pt-BR/`](docs/pt-BR/), which documents a TechTalk actually delivered in Portuguese.
 
 ---
 
@@ -36,16 +36,18 @@ Presentation material and interactive demo comparing the four main approaches to
 │       ├── 08-como-escolher.md
 │       └── 09-seguranca.md
 └── demo/
-    ├── server.js
-    └── public/
-        └── index.html
+    ├── api/                    # Express + ws backend — the four endpoints below
+    │   └── server.js
+    └── web/                    # Next.js frontend for the interactive demo
+        ├── app/
+        └── components/
 ```
 
 ---
 
 ## Demo
 
-A Node.js server with four endpoints running in parallel, and a frontend that connects to all of them simultaneously and shows the behavior of each in real time.
+A Node.js/Express server (`demo/api`) with four endpoints running in parallel, and a Next.js frontend (`demo/web`) that connects to all of them simultaneously and shows the behavior of each in real time.
 
 The server simulates a crypto price feed — a new event every 1.5 seconds — and the client displays how each technology receives those events, with request counters, measured latency, and a cumulative-connections visualizer that makes the cost of each approach visible.
 
@@ -61,13 +63,21 @@ The server simulates a crypto price feed — a new event every 1.5 seconds — a
 
 ### How to run it
 
+Two terminals — the API and the frontend run as separate processes:
+
 ```bash
-cd demo
+# Terminal 1 — API (http://localhost:3000)
+cd demo/api
 npm install
 node server.js
+
+# Terminal 2 — frontend (http://localhost:3001)
+cd demo/web
+pnpm install
+pnpm dev
 ```
 
-Open `http://localhost:3000` and start whichever panels you want to compare. Keeping the DevTools Network tab open alongside it is recommended — the difference between "one request that never closes" (SSE) and "one request per event" (Long Polling) becomes immediately visible.
+Open `http://localhost:3001` and start whichever panels you want to compare. Keeping the DevTools Network tab open alongside it is recommended — the difference between "one request that never closes" (SSE) and "one request per event" (Long Polling) becomes immediately visible.
 
 ### Endpoints
 
@@ -90,5 +100,5 @@ The `05-sse.md` module ([en](docs/en/05-sse.md) / [pt-BR](docs/pt-BR/05-sse.md))
 
 ## Tech
 
-- Node.js with `express` and `ws`
-- Framework-free, build-step-free frontend — plain HTML, CSS, and JS
+- **API** (`demo/api`): Node.js with `express` and `ws`
+- **Frontend** (`demo/web`): Next.js (App Router, TypeScript)
