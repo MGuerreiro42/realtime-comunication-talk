@@ -9,6 +9,19 @@ export interface PanelStat {
   label: string;
 }
 
+export interface PanelProps {
+  technique: Technique;
+  badgeLabel: string;
+  title: string;
+  description: ReactNode;
+  dotState: DotState;
+  status: string;
+  statusExtra?: ReactNode;
+  stats: PanelStat[];
+  feed: FeedEntry[];
+  controls: ReactNode;
+}
+
 export function Panel({
   technique,
   badgeLabel,
@@ -20,18 +33,7 @@ export function Panel({
   stats,
   feed,
   controls,
-}: {
-  technique: Technique;
-  badgeLabel: string;
-  title: string;
-  description: ReactNode;
-  dotState: DotState;
-  status: string;
-  statusExtra?: ReactNode;
-  stats: PanelStat[];
-  feed: FeedEntry[];
-  controls: ReactNode;
-}) {
+}: PanelProps) {
   const style = TECHNIQUE_STYLES[technique];
 
   return (

@@ -6,9 +6,8 @@ import { useLongPolling } from "@/hooks/useLongPolling";
 import { useSse } from "@/hooks/useSse";
 import { useWebSocketDemo } from "@/hooks/useWebSocketDemo";
 import { Button } from "@/components/Button";
-import { Panel, type PanelStat } from "@/components/Panel";
-import { RequestBar } from "@/components/RequestBar";
-import { ExplainerCards } from "@/components/ExplainerCards";
+import type { PanelProps } from "@/components/Panel";
+import { TechniqueSection } from "@/components/TechniqueSection";
 import { PANEL_INFO, type ConnectionCounts, type Technique } from "@/lib/constants";
 
 function StandardControls({
@@ -63,18 +62,7 @@ export default function Home() {
   const sse = useSse(setCount("sse"));
   const ws = useWebSocketDemo(setCount("websocket"));
 
-  const panels: {
-    technique: Technique;
-    badgeLabel: string;
-    title: string;
-    description: string;
-    dotState: (typeof polling)["dotState"];
-    status: string;
-    statusExtra?: React.ReactNode;
-    stats: PanelStat[];
-    feed: (typeof polling)["feed"];
-    controls: React.ReactNode;
-  }[] = [
+  const panels: PanelProps[] = [
     {
       technique: "polling",
       ...PANEL_INFO.polling,
@@ -188,21 +176,15 @@ export default function Home() {
         </p>
       </header>
 
-      <p className="text-center text-[0.78rem] text-[#64748b] pt-4 px-4">
-        Accumulated HTTP requests shown below each panel — only Polling and Long Polling create a
-        new request per event
+      <p className="text-center text-[0.78rem] text-[#64748b] pt-4 px-4 md:pt-6">
+        Swipe to compare — only Polling and Long Polling create a new request per event
       </p>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5 p-6 max-w-[1400px] mx-auto">
+      <div className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [scrollbar-width:none] md:grid md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:gap-5 md:p-6 md:max-w-[1400px] md:mx-auto md:overflow-visible md:snap-none">
         {panels.map((p) => (
-          <div key={p.technique} className="flex flex-col gap-3">
-            <Panel {...p} />
-            <RequestBar technique={p.technique} count={counts[p.technique]} />
-          </div>
+          <TechniqueSection key={p.technique} panelProps={p} count={counts[p.technique]} />
         ))}
       </div>
-
-      <ExplainerCards />
     </>
   );
 }

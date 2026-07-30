@@ -81,58 +81,36 @@ export interface ExplainerItem {
   text: string;
 }
 
-export interface ExplainerCardData {
-  technique: Technique;
-  title: string;
-  items: ExplainerItem[];
-}
-
-export const EXPLAINER_CARDS: ExplainerCardData[] = [
-  {
-    technique: "polling",
-    title: "Polling",
-    items: [
-      { label: "How it works", text: "client calls GET every N seconds" },
-      { label: "Connections", text: "1 new per tick" },
-      { label: "Latency", text: "up to N seconds" },
-      { label: "Overhead", text: "high — requests even without new data" },
-      { label: "Use case", text: "simple dashboards, maximum compatibility" },
-    ],
-  },
-  {
-    technique: "longpoll",
-    title: "Long Polling",
-    items: [
-      { label: "How it works", text: "client opens a request, server holds it until there's data" },
-      { label: "Connections", text: "1 per event (reconnects automatically)" },
-      { label: "Latency", text: "near zero — responds as soon as there's data" },
-      { label: "Overhead", text: "medium — reconnects on every event" },
-      { label: "Use case", text: "chat, notifications (pre-SSE/WS)" },
-    ],
-  },
-  {
-    technique: "sse",
-    title: "Server-Sent Events",
-    items: [
-      { label: "How it works", text: "persistent HTTP stream, server → client" },
-      { label: "Connections", text: "a single one (browser auto-reconnects)" },
-      { label: "Latency", text: "near zero" },
-      { label: "Overhead", text: "low — HTTP headers only once" },
-      { label: "Use case", text: "live feeds, logs, push notifications" },
-    ],
-  },
-  {
-    technique: "websocket",
-    title: "WebSocket",
-    items: [
-      { label: "How it works", text: "full-duplex TCP upgrade (ws://)" },
-      { label: "Connections", text: "a single persistent one" },
-      { label: "Latency", text: "minimal — binary frames" },
-      { label: "Overhead", text: "very low after handshake" },
-      { label: "Use case", text: "games, live collaboration, trading, chat" },
-    ],
-  },
-];
+export const EXPLAINER_ITEMS: Record<Technique, ExplainerItem[]> = {
+  polling: [
+    { label: "How it works", text: "client calls GET every N seconds" },
+    { label: "Connections", text: "1 new per tick" },
+    { label: "Latency", text: "up to N seconds" },
+    { label: "Overhead", text: "high — requests even without new data" },
+    { label: "Use case", text: "simple dashboards, maximum compatibility" },
+  ],
+  longpoll: [
+    { label: "How it works", text: "client opens a request, server holds it until there's data" },
+    { label: "Connections", text: "1 per event (reconnects automatically)" },
+    { label: "Latency", text: "near zero — responds as soon as there's data" },
+    { label: "Overhead", text: "medium — reconnects on every event" },
+    { label: "Use case", text: "chat, notifications (pre-SSE/WS)" },
+  ],
+  sse: [
+    { label: "How it works", text: "persistent HTTP stream, server → client" },
+    { label: "Connections", text: "a single one (browser auto-reconnects)" },
+    { label: "Latency", text: "near zero" },
+    { label: "Overhead", text: "low — HTTP headers only once" },
+    { label: "Use case", text: "live feeds, logs, push notifications" },
+  ],
+  websocket: [
+    { label: "How it works", text: "full-duplex TCP upgrade (ws://)" },
+    { label: "Connections", text: "a single persistent one" },
+    { label: "Latency", text: "minimal — binary frames" },
+    { label: "Overhead", text: "very low after handshake" },
+    { label: "Use case", text: "games, live collaboration, trading, chat" },
+  ],
+};
 
 export interface BarInfo {
   label: string;
