@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server, path: '/ws' });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // The frontend (demo/web) runs on a different port, so every endpoint needs CORS.
 app.use((req, res, next) => {
